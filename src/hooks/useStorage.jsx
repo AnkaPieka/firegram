@@ -9,7 +9,11 @@ const useStorage = (file) => {
     const [err, setErr] = useState(null);
     //img url that we get back after the img is fully uploaded
     const [url, setUrl] = useState(null);
-    
+    //img desc that we get back after the img is fully uploaded
+    const [desc, setDesc] = useState(null);
+
+
+
     useEffect(() => {
         //references
         const storageRef = projectStorage.ref(file.name);
@@ -23,13 +27,15 @@ const useStorage = (file) => {
         }, async () => {
             const url = await storageRef.getDownloadURL();
             const createdAt = timestamp();
-            collectionRef.add({ url, createdAt })
+            const desc = "new image";
+            collectionRef.add({ url, createdAt, desc })
             setUrl(url);
+            setDesc(desc);
         }); //is async
 
     }, [file]);
 
-    return { progress, url, err };
+    return { progress, url, desc, err };
 
 }
 
